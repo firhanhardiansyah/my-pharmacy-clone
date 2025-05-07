@@ -1,25 +1,123 @@
 import { NavFooter } from '@/components/nav-footer';
-import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
+import { type NavGroup, type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import {
+    BookOpen,
+    BriefcaseMedical,
+    Calculator,
+    Contact,
+    Factory,
+    FileText,
+    LayoutGrid,
+    Package,
+    Package2,
+    PackageCheck,
+    PackageMinus,
+    PackageSearch,
+    Percent,
+    Stethoscope,
+    Truck,
+    Users,
+} from 'lucide-react';
 import AppLogo from './app-logo';
+import { NavGroupMain } from './nav-group-main';
 
-const mainNavItems: NavItem[] = [
+// TODO: create a sidebar similar to the order of the siti khadijah pharmacy sidebar
+const mainNavGroups: NavGroup[] = [
     {
-        title: 'Dashboard',
-        href: '/dashboard',
-        icon: LayoutGrid,
+        title: 'Main',
+        items: [
+            {
+                title: 'Dashboard',
+                href: '/dashboard',
+                icon: LayoutGrid,
+            },
+            {
+                title: 'Cashier',
+                href: '/',
+                icon: Calculator,
+            },
+            {
+                title: 'Profit Report',
+                href: '/',
+                icon: FileText,
+            },
+        ],
+    },
+    {
+        title: 'Inventory',
+        items: [
+            {
+                title: 'Stock Opname',
+                href: '/',
+                icon: PackageSearch,
+            },
+            {
+                title: 'Goods Receipt',
+                href: '/',
+                icon: PackageCheck,
+            },
+            {
+                title: 'Return',
+                href: '/',
+                icon: PackageMinus,
+            },
+        ],
+    },
+    {
+        title: 'Master',
+        items: [
+            {
+                title: 'Percentage Formulas',
+                href: '/formulas',
+                icon: Percent,
+            },
+            {
+                title: 'Medical Services',
+                href: '/',
+                icon: BriefcaseMedical,
+            },
+            {
+                title: 'Units',
+                href: '/',
+                icon: Package2,
+            },
+            {
+                title: 'Factories',
+                href: '/',
+                icon: Factory,
+            },
+            {
+                title: 'Products',
+                href: '/',
+                icon: Package,
+            },
+            {
+                title: 'Suppliers',
+                href: '/',
+                icon: Truck,
+            },
+            {
+                title: 'Doctors',
+                href: '/',
+                icon: Stethoscope,
+            },
+            {
+                title: 'Clients',
+                href: '/',
+                icon: Contact,
+            },
+        ],
     },
 ];
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
+        title: 'User',
         href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
+        icon: Users,
     },
     {
         title: 'Documentation',
@@ -44,7 +142,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavGroupMain groups={mainNavGroups} />
             </SidebarContent>
 
             <SidebarFooter>

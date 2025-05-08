@@ -18,38 +18,26 @@ class FormulaSeeder extends Seeder
             [
                 'name' => 'Bebas',
                 'percentage' => 25.0,
-                'created_by' => 1,
-                'created_at' => now(),
             ],
             [
                 'name' => 'Resep Dalam',
                 'percentage' => 45.0,
-                'created_by' => 1,
-                'created_at' => now(),
             ],
             [
                 'name' => 'Resep Luar',
                 'percentage' => 45.0,
-                'created_by' => 1,
-                'created_at' => now(),
             ],
             [
                 'name' => 'PPN',
                 'percentage' => 11.0,
-                'created_by' => 1,
-                'created_at' => now(),
             ],
             [
                 'name' => 'Non PPN',
                 'percentage' => 0.0,
-                'created_by' => 1,
-                'created_at' => now(),
             ],
             [
                 'name' => 'BPJS',
                 'percentage' => 25.0,
-                'created_by' => 1,
-                'created_at' => now(),
             ],
         ]);
     }

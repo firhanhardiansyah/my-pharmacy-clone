@@ -26,9 +26,8 @@ export default function DataTableRowActions<TData extends Formula>({ row }: Data
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
     const deleteFormula = (id: number) => {
-        router.visit(route('formulas.delete', id), {
+        router.visit(route('formulas.destroy', id), {
             method: 'delete',
-            preserveScroll: true,
             onSuccess: () => {
                 setIsDeleteOpen(false);
                 toast.success('Formula deleted successfully!');

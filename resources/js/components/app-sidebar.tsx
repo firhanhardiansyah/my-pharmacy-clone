@@ -76,7 +76,7 @@ const mainNavGroups: NavGroup[] = [
             },
             {
                 title: 'Medical Services',
-                href: '/',
+                href: '/medical-services',
                 icon: BriefcaseMedical,
             },
             {

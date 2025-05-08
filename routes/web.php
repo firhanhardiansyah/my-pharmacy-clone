@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\FormulaController;
+use App\Http\Controllers\MedicalServiceController;
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,6 +15,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::apiResource('formulas', FormulaController::class);
+    Route::apiResource('medical-services', MedicalServiceController::class);
 });
 
 require __DIR__.'/settings.php';

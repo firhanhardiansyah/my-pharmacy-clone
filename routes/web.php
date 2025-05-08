@@ -13,10 +13,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-    Route::get('formulas', [FormulaController::class, 'index']);
-    Route::post('/formulas', [FormulaController::class, 'store'])->name('formulas.store');
-    Route::put('/formulas/{formula}', [FormulaController::class, 'update'])->name('formulas.update');
-    Route::delete('/formulas/{id}', [FormulaController::class, 'destroy'])->name('formulas.delete');
+    Route::apiResource('formulas', FormulaController::class);
 });
 
 require __DIR__.'/settings.php';

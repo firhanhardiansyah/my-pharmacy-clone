@@ -64,11 +64,12 @@ class FormulaController extends Controller
     public function destroy($id)
     {
         $formula = Formula::findOrFail($id);
+
+        $formula->updated_by = Auth::id();
+        $formula->save();
         $formula->delete();
 
         return redirect()->back()->with('success', 'Formula deleted successfully');
     }
-
-
 
 }

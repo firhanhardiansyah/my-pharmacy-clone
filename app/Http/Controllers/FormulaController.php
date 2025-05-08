@@ -14,7 +14,7 @@ class FormulaController extends Controller
 {
     public function index(Request $request)
     {
-        $formulas = Formula::with(['creator', 'updater'])
+        $response = Formula::with(['creator', 'updater'])
             ->when($request->search, function ($query) use ($request) {
                 $query->where('name', 'like', '%' . $request->search . '%');
             })
@@ -22,7 +22,7 @@ class FormulaController extends Controller
             ->paginate(10);
 
         return Inertia::render('formulas/index', [
-            'formulas' => $formulas,
+            'response' => $response,
             'filters' => $request->all('search'),
         ]);
         

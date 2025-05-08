@@ -17,15 +17,18 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { router } from '@inertiajs/react';
 import { ChevronDown } from 'lucide-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
+    filters: { search: string };
+    links: { url: string | null; label: string; active: boolean }[];
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, filters, links }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -50,15 +53,33 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         },
     });
 
+    const [search, setSearch] = useState<string>(filters.search || '');
+
+    useEffect(() => {
+        setSearch(filters.search || '');
+    }, [filters.search]);
+
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setSearch(value);
+
+        // Update the URL and trigger request with new search query
+        router.get(
+            route('medical-services.index'),
+            {
+                search: value,
+            },
+            {
+                preserveState: true, // Maintain current table state
+                replace: true, // Replace URL without reloading the page
+            },
+        );
+    };
+
     return (
         <div className="w-full">
             <div className="flex items-center py-4">
-                <Input
-                    placeholder="Filter name..."
-                    value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
-                    onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
-                    className="max-w-sm"
-                />
+                <Input placeholder="Filter name..." value={search} onChange={handleSearchChange} className="max-w-sm" />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
@@ -123,10 +144,17 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
                     {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s) selected.
                 </div>
                 <div className="space-x-2">
-                    <Button variant="outline" size="sm" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+                    <Button variant="outline" size="sm" onClick={() => router.visit(links[0].url!)} className="mr-2" disabled={!links[0]?.url}>
                         Previous
                     </Button>
-                    <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => router.visit(links[links.length - 1].url!)}
+                        className="ml-2"
+                        disabled={!links[links.length - 1]?.url}
+                    >
                         Next
                     </Button>
                 </div>

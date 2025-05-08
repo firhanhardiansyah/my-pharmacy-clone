@@ -28,8 +28,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Index() {
-    const { formulas } = usePage<{
-        formulas: Pagination<Formula>;
+    const { response, filters } = usePage<{
+        response: Pagination<Formula>;
+        filters: {
+            search: string;
+        };
     }>().props;
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -51,7 +54,7 @@ export default function Index() {
                 <Head title="Percentage Formulas" />
 
                 <div className="px-4">
-                    <DataTable columns={columns} data={formulas.data} />
+                    <DataTable columns={columns} data={response.data} filters={filters} links={response.links} />
                 </div>
             </AppLayout>
 

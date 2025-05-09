@@ -26,7 +26,7 @@ export default function DataTableRowActions<TData extends MedicalService>({ row 
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
     const medicalServiceDelete = (id: number) => {
-        router.visit(route('formulas.destroy', id), {
+        router.visit(route('medical-services.destroy', id), {
             method: 'delete',
             onSuccess: () => {
                 setIsDeleteOpen(false);

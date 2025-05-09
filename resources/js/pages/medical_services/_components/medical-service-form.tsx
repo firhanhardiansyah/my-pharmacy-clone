@@ -1,11 +1,12 @@
 'use client';
 
+import CurrencyInput from '@/components/currency-input';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { MedicalService } from '@/types/medical-service';
 import { useForm } from '@inertiajs/react';
-import { Dispatch, FormEvent, SetStateAction, useEffect } from 'react';
+import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 interface MedicalServiceFormProps {
@@ -26,7 +27,7 @@ export function MedicalServiceForm({ medicalService, setIsOpen }: MedicalService
     const submit = (e: FormEvent) => {
         e.preventDefault();
 
-        // Update formula
+        // Update medical service
         if (isEditMode) {
             put(route('medical-services.update', medicalService?.id), {
                 onSuccess: () => {
@@ -39,7 +40,7 @@ export function MedicalServiceForm({ medicalService, setIsOpen }: MedicalService
                 },
                 onError: () => {
                     reset();
-                    toast.error('Failed to update formula.');
+                    toast.error('Failed to update medical service.');
 
                     if (setIsOpen) {
                         setIsOpen(false);
@@ -48,7 +49,7 @@ export function MedicalServiceForm({ medicalService, setIsOpen }: MedicalService
             });
         }
 
-        // Create new formula
+        // Create new medical service
         if (!isEditMode) {
             post(route('medical-services.store'), {
                 onSuccess: () => {
@@ -60,12 +61,11 @@ export function MedicalServiceForm({ medicalService, setIsOpen }: MedicalService
                     }
                 },
                 onError: () => {
-                    reset();
                     toast.error('Failed to create formula.');
 
-                    if (setIsOpen) {
-                        setIsOpen(false);
-                    }
+                    // if (setIsOpen) {
+                    //     setIsOpen(false);
+                    // }
                 },
             });
         }
@@ -79,6 +79,9 @@ export function MedicalServiceForm({ medicalService, setIsOpen }: MedicalService
         }
     }, [medicalService]);
 
+    const [price, setPrice] = useState('');
+    const [numericValue, setNumericValue] = useState(0);
+
     return (
         <form onSubmit={submit} className="space-y-4">
             <div>
@@ -89,8 +92,13 @@ export function MedicalServiceForm({ medicalService, setIsOpen }: MedicalService
 
             <div>
                 <Label htmlFor="price">Price</Label>
-                <Input id="price" type="number" value={data.price} onChange={(e) => setData('price', e.target.value)} />
+                <CurrencyInput value={data.price} onValueChange={(e) => setData('price', e)} />
                 {errors.price && <p className="text-sm text-red-500">{errors.price}</p>}
+            </div>
+
+            <div>
+                <Label htmlFor="description">Description</Label>
+                <Input id="description" value={data.description} onChange={(e) => setData('description', e.target.value)} />
             </div>
 
             <div className="flex justify-end">

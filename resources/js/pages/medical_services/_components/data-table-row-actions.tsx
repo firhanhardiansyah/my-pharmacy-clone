@@ -75,16 +75,16 @@ export default function DataTableRowActions<TData extends MedicalService>({ row 
             </DropdownMenu>
 
             <ResponsiveDialog
-                title="Edit Percentage Formula"
-                description="Change the percentage formula to suit your calculation needs. Make sure the format is valid for accurate results."
+                title="Edit Medical Service"
+                description="Make sure all information entered is complete and accurate, including the service name, price, and a brief description of the service."
                 open={isEditOpen}
                 setOpen={setIsEditOpen}
             >
                 <MedicalServiceForm medicalService={row.original} setIsOpen={setIsEditOpen} />
             </ResponsiveDialog>
             <ResponsiveDialog
-                title="Delete Percentage Formula"
-                description="Are you sure you want to delete this formula? This action cannot be undone."
+                title="Delete Medical Service"
+                description="Are you sure you want to delete this medical service? This action cannot be undone."
                 open={isDeleteOpen}
                 setOpen={setIsDeleteOpen}
             >

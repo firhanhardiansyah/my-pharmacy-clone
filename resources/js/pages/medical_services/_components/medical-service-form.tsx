@@ -62,10 +62,6 @@ export function MedicalServiceForm({ medicalService, setIsOpen }: MedicalService
                 },
                 onError: () => {
                     toast.error('Failed to create formula.');
-
-                    // if (setIsOpen) {
-                    //     setIsOpen(false);
-                    // }
                 },
             });
         }
@@ -103,7 +99,7 @@ export function MedicalServiceForm({ medicalService, setIsOpen }: MedicalService
 
             <div className="flex justify-end">
                 <Button type="submit" disabled={processing}>
-                    {isEditMode ? 'Update Changes' : 'Save Medical service'}
+                    {isEditMode ? 'Update Changes' : 'Save Medical Service'}
                 </Button>
             </div>
         </form>

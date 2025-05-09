@@ -40,7 +40,7 @@ export default function index() {
                     </Button>
                 }
             >
-                <Head title="Percentage Medical Services" />
+                <Head title="Medical Services" />
 
                 <div className="px-4">
                     <DataTable columns={columns} data={response.data} filters={filters} links={response.links} />
@@ -48,8 +48,8 @@ export default function index() {
             </AppLayout>
 
             <ResponsiveDialog
-                title="Create Percentage Medical Service"
-                description="Change the percentage formula to suit your calculation needs. Make sure the format is valid for accurate results."
+                title="Create Medical Service"
+                description="Make sure all information entered is complete and accurate, including the service name, price, and a brief description of the service."
                 open={isDialogOpen}
                 setOpen={setIsDialogOpen}
             >

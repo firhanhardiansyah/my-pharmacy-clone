@@ -61,13 +61,13 @@ class FormulaController extends Controller
         return redirect()->back()->with('success', 'Formula updated!');
     }
 
-    public function destroy($id)
+    public function destroy(Formula $formula)
     {
-        $formula = Formula::findOrFail($id);
+        $data = Formula::findOrFail($formula->id);
 
-        $formula->updated_by = Auth::id();
-        $formula->save();
-        $formula->delete();
+        $data->updated_by = Auth::id();
+        $data->save();
+        $data->delete();
 
         return redirect()->back()->with('success', 'Formula deleted successfully');
     }

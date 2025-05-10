@@ -18,7 +18,9 @@ class MedicalServiceController extends Controller
     {
         $response = MedicalService::with(['creator', 'updater'])
             ->when($request->search, function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->search . '%');
+                $query->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('price', 'like', '%' . $request->search . '%')
+                    ->orWhere('description', 'like', '%' . $request->search . '%');
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10);
@@ -59,7 +61,7 @@ class MedicalServiceController extends Controller
             'updated_at'    => null,
         ]);
 
-        return redirect()->back()->with('success', 'Formula created!');
+        return redirect()->back()->with('success', 'Medical Service created!');
     }
 
     /**

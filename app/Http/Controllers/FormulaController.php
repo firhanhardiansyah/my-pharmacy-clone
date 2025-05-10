@@ -16,7 +16,8 @@ class FormulaController extends Controller
     {
         $response = Formula::with(['creator', 'updater'])
             ->when($request->search, function ($query) use ($request) {
-                $query->where('name', 'like', '%' . $request->search . '%');
+                $query->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('percentage', 'like', '%' . $request->search . '%');
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10);

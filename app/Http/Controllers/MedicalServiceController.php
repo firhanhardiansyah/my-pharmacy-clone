@@ -23,9 +23,13 @@ class MedicalServiceController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
+            // Take total of all data without filter
+            $totalData = MedicalService::count();
+
         return Inertia::render('medical_services/index', [
-            'response' => $response,
-            'filters' => $request->all('search'),
+            'response'  => $response,
+            'filters'   => $request->all('search'),
+            'totalData' => $totalData,
         ]);
     }
 

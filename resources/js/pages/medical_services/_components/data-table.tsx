@@ -27,13 +27,15 @@ interface DataTableProps<TData, TValue> {
     data: TData[];
     filters: { search: string };
     links: { url: string | null; label: string; active: boolean }[];
+    totalData: number;
 }
 
-export function DataTable<TData, TValue>({ columns, data, filters, links }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, filters, links, totalData }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
+    const [search, setSearch] = useState<string>(filters.search || '');
 
     const table = useReactTable({
         data,
@@ -53,8 +55,6 @@ export function DataTable<TData, TValue>({ columns, data, filters, links }: Data
             rowSelection,
         },
     });
-
-    const [search, setSearch] = useState<string>(filters.search || '');
 
     useEffect(() => {
         setSearch(filters.search || '');
@@ -142,7 +142,7 @@ export function DataTable<TData, TValue>({ columns, data, filters, links }: Data
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
                 <div className="text-muted-foreground flex-1 text-sm">
-                    {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s) selected.
+                    {table.getFilteredSelectedRowModel().rows.length} of {totalData} row(s) selected.
                 </div>
                 <div className="space-x-2">
                     <Button variant="outline" size="sm" onClick={() => router.visit(links[0].url!)} className="mr-2" disabled={!links[0]?.url}>

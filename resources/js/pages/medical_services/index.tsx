@@ -17,11 +17,12 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function index() {
-    const { response, filters } = usePage<{
+    const { response, filters, totalData } = usePage<{
         response: Pagination<MedicalService>;
         filters: {
             search: string;
         };
+        totalData: number;
     }>().props;
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -43,7 +44,7 @@ export default function index() {
                 <Head title="Medical Services" />
 
                 <div className="px-4">
-                    <DataTable columns={columns} data={response.data} filters={filters} links={response.links} />
+                    <DataTable columns={columns} data={response.data} filters={filters} links={response.links} totalData={totalData} />
                 </div>
             </AppLayout>
 

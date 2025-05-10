@@ -80,8 +80,8 @@ const mainNavGroups: NavGroup[] = [
                 icon: BriefcaseMedical,
             },
             {
-                title: 'Units',
-                href: '/',
+                title: 'Units of Measure (UOMs)',
+                href: '/uoms',
                 icon: Package2,
             },
             {

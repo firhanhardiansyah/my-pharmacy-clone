@@ -19,7 +19,7 @@ import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { router } from '@inertiajs/react';
 
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 interface DataTableProps<TData, TValue> {
@@ -66,9 +66,24 @@ export function DataTable<TData, TValue>({ columns, data, filters, links, totalD
 
         // Update the URL and trigger request with new search query
         router.get(
-            route('medical-services.index'),
+            route('uoms.index'),
             {
                 search: value,
+            },
+            {
+                preserveState: true, // Maintain current table state
+                replace: true, // Replace URL without reloading the page
+            },
+        );
+    };
+
+    // On Progress
+    const handlePageSizeChange = (value: string) => {
+        // Update the URL and trigger request with new search query
+        router.get(
+            route('uoms.index'),
+            {
+                pageSize: value,
             },
             {
                 preserveState: true, // Maintain current table state
@@ -80,7 +95,7 @@ export function DataTable<TData, TValue>({ columns, data, filters, links, totalD
     return (
         <div className="w-full">
             <div className="flex items-center py-4">
-                <Input placeholder="Search Medical Service..." value={search} onChange={handleSearchChange} className="max-w-sm" />
+                <Input placeholder="Search Units of Measure..." value={search} onChange={handleSearchChange} className="max-w-sm" />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">
@@ -141,22 +156,46 @@ export function DataTable<TData, TValue>({ columns, data, filters, links, totalD
                 </Table>
             </div>
             <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="text-muted-foreground flex-1 text-sm">
+                <div className="text-muted-foreground flex-1 text-sm lg:flex">
                     {table.getFilteredSelectedRowModel().rows.length} of {totalData} row(s) selected.
                 </div>
-                <div className="space-x-2">
-                    <Button variant="outline" size="sm" onClick={() => router.visit(links[0].url!)} className="mr-2" disabled={!links[0]?.url}>
-                        Previous
-                    </Button>
+                {/* Masih ada Bug */}
 
+                {/* <div className="hidden items-center gap-2 lg:flex">
+                    <Label htmlFor="rows-per-page" className="text-sm font-medium">
+                        Rows per page
+                    </Label>
+                    <Select value={`${table.getState().pagination.pageSize}`} onValueChange={handlePageSizeChange}>
+                        <SelectTrigger className="w-20" id="rows-per-page">
+                            <SelectValue placeholder={table.getState().pagination.pageSize} />
+                        </SelectTrigger>
+                        <SelectContent side="top">
+                            {[10, 20, 30, 40, 50].map((pageSize) => (
+                                <SelectItem key={pageSize} value={`${pageSize}`}>
+                                    {pageSize}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="flex w-fit items-center justify-center text-sm font-medium">
+                    Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+                </div> */}
+
+                <div className="ml-auto flex items-center gap-2 lg:ml-0">
+                    <Button variant="outline" className="size-8" size="icon" onClick={() => router.visit(links[0].url!)} disabled={!links[0]?.url}>
+                        <span className="sr-only">Go to previous page</span>
+                        <ChevronLeftIcon />
+                    </Button>
                     <Button
                         variant="outline"
-                        size="sm"
+                        className="size-8"
+                        size="icon"
                         onClick={() => router.visit(links[links.length - 1].url!)}
-                        className="ml-2"
                         disabled={!links[links.length - 1]?.url}
                     >
-                        Next
+                        <span className="sr-only">Go to next page</span>
+                        <ChevronRightIcon />
                     </Button>
                 </div>
             </div>

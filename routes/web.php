@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\FormulaController;
 use App\Http\Controllers\MedicalServiceController;
+use App\Http\Controllers\UomController;
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,6 +17,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::apiResource('formulas', FormulaController::class);
     Route::apiResource('medical-services', MedicalServiceController::class);
+    Route::apiResource('uoms', UomController::class);
 });
 
 require __DIR__.'/settings.php';

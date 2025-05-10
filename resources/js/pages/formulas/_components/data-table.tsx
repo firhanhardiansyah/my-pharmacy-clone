@@ -65,7 +65,7 @@ export function DataTable<TData, TValue>({ columns, data, filters, links }: Data
 
         // Update the URL and trigger request with new search query
         router.get(
-            route('medical-services.index'),
+            route('formulas.index'),
             {
                 search: value,
             },
@@ -79,7 +79,7 @@ export function DataTable<TData, TValue>({ columns, data, filters, links }: Data
     return (
         <div className="w-full">
             <div className="flex items-center py-4">
-                <Input placeholder="Filter name..." value={search} onChange={handleSearchChange} className="max-w-sm" />
+                <Input placeholder="Search Formula..." value={search} onChange={handleSearchChange} className="max-w-sm" />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">

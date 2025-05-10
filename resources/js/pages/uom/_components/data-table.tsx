@@ -19,26 +19,28 @@ import { Input } from '@/components/ui/input';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { router } from '@inertiajs/react';
 
-import { ChevronDown, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import { Pagination } from '@/types';
+import { ChevronDown } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
-    data: TData[];
-    filters: { search: string };
-    links: { url: string | null; label: string; active: boolean }[];
+    filters: { search: string; perPage: string };
     totalData: number;
+    pageSize: number;
+    response: Pagination<TData>;
 }
 
-export function DataTable<TData, TValue>({ columns, data, filters, links, totalData }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, response, filters, totalData, pageSize }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
     const [rowSelection, setRowSelection] = React.useState({});
     const [search, setSearch] = useState<string>(filters.search || '');
+    const [perPage, setPerPage] = useState<number>(10);
 
     const table = useReactTable({
-        data,
+        data: response.data,
         columns,
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
@@ -77,19 +79,8 @@ export function DataTable<TData, TValue>({ columns, data, filters, links, totalD
         );
     };
 
-    // On Progress
-    const handlePageSizeChange = (value: string) => {
-        // Update the URL and trigger request with new search query
-        router.get(
-            route('uoms.index'),
-            {
-                pageSize: value,
-            },
-            {
-                preserveState: true, // Maintain current table state
-                replace: true, // Replace URL without reloading the page
-            },
-        );
+    const goToPage = (page: number) => {
+        router.get(route('uoms.index'), { page }, { preserveScroll: true });
     };
 
     return (
@@ -136,7 +127,7 @@ export function DataTable<TData, TValue>({ columns, data, filters, links, totalD
                             </TableRow>
                         ))}
                     </TableHeader>
-                    <TableBody>
+                    <TableBody className="**:data-[slot=table-cell]:first:w-8">
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
@@ -155,48 +146,30 @@ export function DataTable<TData, TValue>({ columns, data, filters, links, totalD
                     </TableBody>
                 </Table>
             </div>
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="text-muted-foreground flex-1 text-sm lg:flex">
+            <div className="flex items-center justify-between py-4">
+                <div className="text-muted-foreground hidden flex-1 text-sm lg:flex">
                     {table.getFilteredSelectedRowModel().rows.length} of {totalData} row(s) selected.
                 </div>
-                {/* Masih ada Bug */}
-
-                {/* <div className="hidden items-center gap-2 lg:flex">
-                    <Label htmlFor="rows-per-page" className="text-sm font-medium">
-                        Rows per page
-                    </Label>
-                    <Select value={`${table.getState().pagination.pageSize}`} onValueChange={handlePageSizeChange}>
-                        <SelectTrigger className="w-20" id="rows-per-page">
-                            <SelectValue placeholder={table.getState().pagination.pageSize} />
-                        </SelectTrigger>
-                        <SelectContent side="top">
-                            {[10, 20, 30, 40, 50].map((pageSize) => (
-                                <SelectItem key={pageSize} value={`${pageSize}`}>
-                                    {pageSize}
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div className="flex w-fit items-center justify-center text-sm font-medium">
-                    Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-                </div> */}
-
-                <div className="ml-auto flex items-center gap-2 lg:ml-0">
-                    <Button variant="outline" className="size-8" size="icon" onClick={() => router.visit(links[0].url!)} disabled={!links[0]?.url}>
-                        <span className="sr-only">Go to previous page</span>
-                        <ChevronLeftIcon />
-                    </Button>
-                    <Button
-                        variant="outline"
-                        className="size-8"
-                        size="icon"
-                        onClick={() => router.visit(links[links.length - 1].url!)}
-                        disabled={!links[links.length - 1]?.url}
-                    >
-                        <span className="sr-only">Go to next page</span>
-                        <ChevronRightIcon />
-                    </Button>
+                <div className="flex w-full items-center gap-8 lg:w-fit">
+                    <div className="flex w-fit items-center justify-center text-sm font-medium">
+                        Page {response.current_page} of {response.last_page}
+                    </div>
+                    <div className="ml-auto flex items-center gap-2 lg:ml-0">
+                        <Button variant="outline" onClick={() => goToPage(response.current_page - 1)} disabled={response.current_page <= 1}>
+                            <span className="sr-only">Go to previous page</span>
+                            {/* <ChevronLeftIcon /> */}
+                            Previous
+                        </Button>
+                        <Button
+                            variant="outline"
+                            onClick={() => goToPage(response.current_page + 1)}
+                            disabled={response.current_page >= response.last_page}
+                        >
+                            <span className="sr-only">Go to next page</span>
+                            {/* <ChevronRightIcon /> */}
+                            Next
+                        </Button>
+                    </div>
                 </div>
             </div>
         </div>

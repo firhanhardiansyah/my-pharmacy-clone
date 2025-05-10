@@ -17,12 +17,14 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function index() {
-    const { response, filters, totalData } = usePage<{
+    const { response, filters, totalData, pageSize } = usePage<{
         response: Pagination<Uom>;
         filters: {
             search: string;
+            perPage: string;
         };
         totalData: number;
+        pageSize: number;
     }>().props;
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -44,7 +46,7 @@ export default function index() {
                 <Head title="Units of Measure (UOMs)" />
 
                 <div className="px-4">
-                    <DataTable columns={columns} data={response.data} filters={filters} links={response.links} totalData={totalData} />
+                    <DataTable columns={columns} response={response} filters={filters} totalData={totalData} pageSize={pageSize} />
                 </div>
             </AppLayout>
 

@@ -14,6 +14,8 @@ class UomController extends Controller
      */
     public function index(Request $request)
     {
+        $perPage = $request->get('per_page', 10);
+
         $response = Uom::with(['creator', 'updater'])
                     ->when($request->search, function ($query) use ($request) {
                         $query->where('code', 'like', '%' . $request->search . '%')
@@ -21,16 +23,16 @@ class UomController extends Controller
                             ->orWhere('description', 'like', '%' . $request->search . '%');
                     })
                     ->orderBy('created_at', 'desc')
-                    ->paginate($request->pageSize ?: 10);
+                    ->paginate($perPage);
 
-            // Take total of all data without filter
-            $totalData = Uom::count();
+        // Take total of all data without filter
+        $totalData = Uom::count();
+
 
         return Inertia::render('uom/index', [
             'response'  => $response,
-            'filters'   => $request->all('search'),
+            'filters'   => $request->only(['search', 'per_page']),
             'totalData' => $totalData,
-            'pageSize'  => request('pageSize', 10)
         ]);
     }
 

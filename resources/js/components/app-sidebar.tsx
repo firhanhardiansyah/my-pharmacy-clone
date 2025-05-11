@@ -86,7 +86,7 @@ const mainNavGroups: NavGroup[] = [
             },
             {
                 title: 'Factories',
-                href: '/',
+                href: '/factories',
                 icon: Factory,
             },
             {

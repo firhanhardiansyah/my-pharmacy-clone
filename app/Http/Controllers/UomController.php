@@ -29,7 +29,7 @@ class UomController extends Controller
         $totalData = Uom::count();
 
 
-        return Inertia::render('uom/index', [
+        return Inertia::render('uoms/index', [
             'response'  => $response,
             'filters'   => $request->only(['search', 'per_page']),
             'totalData' => $totalData,

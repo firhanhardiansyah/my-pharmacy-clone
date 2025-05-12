@@ -3,6 +3,7 @@ use App\Http\Controllers\FormulaController;
 use App\Http\Controllers\MedicalServiceController;
 use App\Http\Controllers\UomController;
 use App\Http\Controllers\FactoryController;
+use App\Http\Controllers\SupplierController;
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,6 +21,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::apiResource('medical-services', MedicalServiceController::class);
     Route::apiResource('uoms', UomController::class);
     Route::apiResource('factories', FactoryController::class);
+    Route::apiResource('suppliers', SupplierController::class);
 });
 
 require __DIR__.'/settings.php';

@@ -90,14 +90,14 @@ const mainNavGroups: NavGroup[] = [
                 icon: Factory,
             },
             {
+                title: 'Suppliers',
+                href: '/suppliers',
+                icon: Truck,
+            },
+            {
                 title: 'Products',
                 href: '/',
                 icon: Package,
-            },
-            {
-                title: 'Suppliers',
-                href: '/',
-                icon: Truck,
             },
             {
                 title: 'Doctors',

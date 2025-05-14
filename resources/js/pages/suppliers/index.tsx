@@ -11,8 +11,8 @@ import { FormInput } from './_components/form-input';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Factories',
-        href: '/uom',
+        title: 'Suppliers',
+        href: '/suppliers',
     },
 ];
 

@@ -9,7 +9,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Uom } from '@/types/uom';
+import { Factory } from '@/types/factory';
 import { router } from '@inertiajs/react';
 import { Row } from '@tanstack/react-table';
 import { MoreVertical, Pencil, Trash } from 'lucide-react';
@@ -21,7 +21,7 @@ interface DataTableRowActionsProps<TData> {
     row: Row<TData>;
 }
 
-export default function DataTableRowActions<TData extends Uom>({ row }: DataTableRowActionsProps<TData>) {
+export default function DataTableRowActions<TData extends Factory>({ row }: DataTableRowActionsProps<TData>) {
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 

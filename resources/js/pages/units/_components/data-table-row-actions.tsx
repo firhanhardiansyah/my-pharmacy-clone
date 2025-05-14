@@ -9,7 +9,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Uom } from '@/types/uom';
+import { Unit } from '@/types/unit';
 import { router } from '@inertiajs/react';
 import { Row } from '@tanstack/react-table';
 import { MoreVertical, Pencil, Trash } from 'lucide-react';
@@ -21,12 +21,12 @@ interface DataTableRowActionsProps<TData> {
     row: Row<TData>;
 }
 
-export default function DataTableRowActions<TData extends Uom>({ row }: DataTableRowActionsProps<TData>) {
+export default function DataTableRowActions<TData extends Unit>({ row }: DataTableRowActionsProps<TData>) {
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
     const onDelete = (id: number) => {
-        router.visit(route('uoms.destroy', id), {
+        router.visit(route('units.destroy', id), {
             method: 'delete',
             onSuccess: () => {
                 setIsDeleteOpen(false);
@@ -75,15 +75,15 @@ export default function DataTableRowActions<TData extends Uom>({ row }: DataTabl
             </DropdownMenu>
 
             <ResponsiveDialog
-                title="Edit Unit of Measure"
+                title="Edit Unit"
                 description="Make sure all information entered is complete and accurate, including the code, name, and a brief description of the unit of measure."
                 open={isEditOpen}
                 setOpen={setIsEditOpen}
             >
-                <FormInput uom={row.original} setIsOpen={setIsEditOpen} />
+                <FormInput unit={row.original} setIsOpen={setIsEditOpen} />
             </ResponsiveDialog>
             <ResponsiveDialog
-                title="Delete Unit of Measure"
+                title="Delete Unit"
                 description="Are you sure you want to delete this unit of measure? This action cannot be undone."
                 open={isDeleteOpen}
                 setOpen={setIsDeleteOpen}

@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Uom } from '@/types/uom';
+import { Unit } from '@/types/unit';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown } from 'lucide-react';
 import DataTableRowActions from './data-table-row-actions';
 
-export const columns: ColumnDef<Uom>[] = [
+export const columns: ColumnDef<Unit>[] = [
     {
         id: 'select',
         header: ({ table }) => (

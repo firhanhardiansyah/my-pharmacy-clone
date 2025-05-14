@@ -2,7 +2,7 @@ import ResponsiveDialog from '@/components/responsive-dialog';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem, Pagination } from '@/types';
-import { Uom } from '@/types/uom';
+import { Unit } from '@/types/unit';
 import { Head, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { columns } from './_components/columns';
@@ -11,14 +11,14 @@ import { FormInput } from './_components/form-input';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Units of Measure (UOMs)',
+        title: 'Units',
         href: '/uom',
     },
 ];
 
 export default function index() {
     const { response, filters, totalData, pageSize } = usePage<{
-        response: Pagination<Uom>;
+        response: Pagination<Unit>;
         filters: {
             search: string;
             perPage: string;
@@ -39,11 +39,11 @@ export default function index() {
                             setIsDialogOpen(true);
                         }}
                     >
-                        Create UOM
+                        Create Unit
                     </Button>
                 }
             >
-                <Head title="Units of Measure (UOMs)" />
+                <Head title="Units" />
 
                 <div className="px-4">
                     <DataTable columns={columns} response={response} filters={filters} totalData={totalData} pageSize={pageSize} />
@@ -51,8 +51,8 @@ export default function index() {
             </AppLayout>
 
             <ResponsiveDialog
-                title="Create Units of Measure (UOM)"
-                description="Make sure all information entered is complete and accurate, including the service code, name, and a brief description of the Units of Measure (UOMs)."
+                title="Create Unit"
+                description="Make sure all information entered is complete and accurate, including the service code, name, and a brief description of the Unit."
                 open={isDialogOpen}
                 setOpen={setIsDialogOpen}
             >

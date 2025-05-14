@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('uoms', function (Blueprint $table) {
+        Schema::create('units', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('code', 10)->unique();
             $table->string('name', 255);
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('uoms');
+        Schema::dropIfExists('units');
     }
 };

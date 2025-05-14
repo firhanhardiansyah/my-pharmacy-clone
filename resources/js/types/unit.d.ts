@@ -1,4 +1,4 @@
-export interface Uom {
+export interface Unit {
     id: number;
     code: string;
     name: string;

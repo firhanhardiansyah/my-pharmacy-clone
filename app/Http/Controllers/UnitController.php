@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Uom;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-class UomController extends Controller
+class UnitController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class UomController extends Controller
     {
         $perPage = $request->get('per_page', 10);
 
-        $response = Uom::with(['creator', 'updater'])
+        $response = Unit::with(['creator', 'updater'])
                     ->when($request->search, function ($query) use ($request) {
                         $query->where('code', 'like', '%' . $request->search . '%')
                             ->orWhere('name', 'like', '%' . $request->search . '%')
@@ -26,10 +26,10 @@ class UomController extends Controller
                     ->paginate($perPage);
 
         // Take total of all data without filter
-        $totalData = Uom::count();
+        $totalData = Unit::count();
 
 
-        return Inertia::render('uoms/index', [
+        return Inertia::render('units/index', [
             'response'  => $response,
             'filters'   => $request->only(['search', 'per_page']),
             'totalData' => $totalData,
@@ -54,7 +54,7 @@ class UomController extends Controller
             'name'  => 'required|string|max:255',
         ]);
 
-        Uom::create([
+        Unit::create([
             'code'          => $request->code,
             'name'          => $request->name,
             'description'   => $request->description,
@@ -62,13 +62,13 @@ class UomController extends Controller
             'updated_at'    => null,
         ]);
 
-        return redirect()->back()->with('success', 'Unit of Measure created!');
+        return redirect()->back()->with('success', 'Unit created!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Uom $uom)
+    public function show(Unit $unit)
     {
         //
     }
@@ -76,7 +76,7 @@ class UomController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Uom $uom)
+    public function edit(Unit $unit)
     {
         //
     }
@@ -84,34 +84,34 @@ class UomController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Uom $uom)
+    public function update(Request $request, Unit $unit)
     {
         $request->validate([
             'code'  => 'required|string|max:10',
             'name'  => 'required|string|max:255',
         ]);
 
-        $uom->update([
+        $unit->update([
             'code'          => $request->code,
             'name'          => $request->name,
             'description'   => $request->description,
             'updated_by'    => Auth::id(),
         ]);
 
-        return redirect()->back()->with('success', 'Unit of Measure updated!');
+        return redirect()->back()->with('success', 'Unit updated!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Uom $uom)
+    public function destroy(Unit $unit)
     {
-        $data = $uom->findOrFail($uom->id);
+        $data = $unit->findOrFail($unit->id);
 
         $data->updated_by = Auth::id();
         $data->save();
         $data->delete();
 
-        return redirect()->back()->with('success', 'Unit of Measure deleted successfully');
+        return redirect()->back()->with('success', 'Unit deleted successfully');
     }
 }

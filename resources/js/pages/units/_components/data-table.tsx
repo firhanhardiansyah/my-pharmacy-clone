@@ -68,7 +68,7 @@ export function DataTable<TData, TValue>({ columns, response, filters, totalData
 
         // Update the URL and trigger request with new search query
         router.get(
-            route('uoms.index'),
+            route('units.index'),
             {
                 search: value,
             },
@@ -80,13 +80,13 @@ export function DataTable<TData, TValue>({ columns, response, filters, totalData
     };
 
     const goToPage = (page: number) => {
-        router.get(route('uoms.index'), { page }, { preserveScroll: true });
+        router.get(route('units.index'), { page }, { preserveScroll: true });
     };
 
     return (
         <div className="w-full">
             <div className="flex items-center py-4">
-                <Input placeholder="Search Units of Measure..." value={search} onChange={handleSearchChange} className="max-w-sm" />
+                <Input placeholder="Search Units..." value={search} onChange={handleSearchChange} className="max-w-sm" />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-auto">

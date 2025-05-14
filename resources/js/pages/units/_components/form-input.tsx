@@ -3,34 +3,34 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Uom } from '@/types/uom';
+import { Unit } from '@/types/unit';
 import { useForm } from '@inertiajs/react';
 import { Dispatch, FormEvent, SetStateAction, useEffect } from 'react';
 import { toast } from 'sonner';
 
 interface FormInputProps {
-    uom?: Uom;
+    unit?: Unit;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export function FormInput({ uom, setIsOpen }: FormInputProps) {
+export function FormInput({ unit, setIsOpen }: FormInputProps) {
     const { data, setData, post, put, processing, reset, errors } = useForm({
-        code: uom?.code || '',
-        name: uom?.name || '',
-        description: uom?.description || '',
+        code: unit?.code || '',
+        name: unit?.name || '',
+        description: unit?.description || '',
     });
 
-    const isEditMode = Boolean(uom);
+    const isEditMode = Boolean(unit);
 
     // Handle form submission
     const submit = (e: FormEvent) => {
         e.preventDefault();
 
-        // Update uom
+        // Update unit
         if (isEditMode) {
-            put(route('uoms.update', uom?.id), {
+            put(route('units.update', unit?.id), {
                 onSuccess: () => {
-                    toast.success('Unit of Measure updated successfully!');
+                    toast.success('Unit successfully!');
                     reset();
 
                     if (setIsOpen) {
@@ -38,18 +38,18 @@ export function FormInput({ uom, setIsOpen }: FormInputProps) {
                     }
                 },
                 onError: () => {
-                    toast.error('Failed to update uom.');
+                    toast.error('Failed to update unit.');
                 },
             });
         }
 
-        // Create new uom
+        // Create new unit
         if (!isEditMode) {
-            console.log('Create Uom');
+            console.log('Create Unit');
 
-            post(route('uoms.store'), {
+            post(route('units.store'), {
                 onSuccess: () => {
-                    toast.success('Unit of Measure created successfully!');
+                    toast.success('Unit created successfully!');
                     reset();
 
                     if (setIsOpen) {
@@ -57,19 +57,19 @@ export function FormInput({ uom, setIsOpen }: FormInputProps) {
                     }
                 },
                 onError: () => {
-                    toast.error('Failed to create Unit of Measure.');
+                    toast.error('Failed to create Unit.');
                 },
             });
         }
     };
 
     useEffect(() => {
-        if (uom) {
-            setData('code', uom.code);
-            setData('name', uom.name);
-            setData('description', uom.description);
+        if (unit) {
+            setData('code', unit.code);
+            setData('name', unit.name);
+            setData('description', unit.description);
         }
-    }, [uom]);
+    }, [unit]);
 
     return (
         <form onSubmit={submit} className="space-y-4">
@@ -92,7 +92,7 @@ export function FormInput({ uom, setIsOpen }: FormInputProps) {
 
             <div className="flex justify-end">
                 <Button type="submit" disabled={processing}>
-                    {isEditMode ? 'Update Changes' : 'Save Units of Measure'}
+                    {isEditMode ? 'Update Changes' : 'Save Unit'}
                 </Button>
             </div>
         </form>

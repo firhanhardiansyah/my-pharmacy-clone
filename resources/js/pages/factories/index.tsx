@@ -2,7 +2,7 @@ import ResponsiveDialog from '@/components/responsive-dialog';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { BreadcrumbItem, Pagination } from '@/types';
-import { Uom } from '@/types/uom';
+import { Factory } from '@/types/factory';
 import { Head, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { columns } from './_components/columns';
@@ -18,7 +18,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function index() {
     const { response, filters, totalData, pageSize } = usePage<{
-        response: Pagination<Uom>;
+        response: Pagination<Factory>;
         filters: {
             search: string;
             perPage: string;
